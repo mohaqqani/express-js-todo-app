@@ -17,6 +17,9 @@ export const getTodoLists = (req, res) => {
 export const addTodoList = (req, res) => {
     PrintLog('addTodoList', req.body);
     const newTodoList = new TodoList(req.body);
+    if (newTodoList.contributors.length < 1){
+        newTodoList.contributors.push(newTodoList.owner);
+    }
     newTodoList.save((err, todoList) => {
         if (err) {
             console.error(err);
