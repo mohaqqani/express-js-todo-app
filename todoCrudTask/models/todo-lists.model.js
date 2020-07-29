@@ -18,7 +18,7 @@ const Schema = mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Users',
         validate: {
-            isAsync: true,
+            // isAsync: true,
             validator: (v) => {
                 return FKUtils(mongoose.model('Users'), v);
             },
@@ -29,7 +29,7 @@ const Schema = mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Users',
         validate: {
-            isAsync: true,
+            // isAsync: true,
             validator: (v) => {
                 return FKUtils(mongoose.model('Users'), v);
             },

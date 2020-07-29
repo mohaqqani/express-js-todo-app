@@ -17,7 +17,7 @@ const Schema = mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'TodoLists',
         validate: {
-            isAsync: true,
+            // isAsync: true,
             validator: (v) => {
                 return FKUtils(mongoose.model('TodoLists'), v);
             },
