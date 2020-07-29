@@ -1,0 +1,27 @@
+{
+  "name": "todocrudtask",
+  "version": "0.0.0",
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app_hooked.js"
+  },
+  "dependencies": {
+    "babel-preset-es2015-node6": "^0.4.0",
+    "babel-register": "^6.26.0",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "express-busboy": "^8.0.0",
+    "http-errors": "~1.6.3",
+    "mongoose": "^5.9.26",
+    "morgan": "~1.9.1",
+    "nodemailer": "^6.4.11",
+    "source-map-support": "^0.5.19"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
