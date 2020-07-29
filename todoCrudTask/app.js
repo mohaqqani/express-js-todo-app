@@ -7,7 +7,7 @@ import SourceMapSupport from 'source-map-support';
 import bb from 'express-busboy';
 import createError from 'http-errors';
 
-import todoRoutes from './routes/todo.route';
+import todoListRoutes from './routes/todo-list.route';
 import userRoutes from './routes/users.route';
 
 
@@ -43,7 +43,7 @@ mongoose.connect('mongodb://localhost/todoCrudTask', {
 SourceMapSupport.install();
 
 
-app.use('/todo', todoRoutes);
+app.use('/todoList', todoListRoutes);
 app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
