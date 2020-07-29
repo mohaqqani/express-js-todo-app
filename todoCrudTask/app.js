@@ -6,6 +6,12 @@ import mongoose from 'mongoose';
 import SourceMapSupport from 'source-map-support';
 import bb from 'express-busboy';
 import createError from 'http-errors';
+import http from 'http';
+import socket from 'socket.io';
+import session from 'express-session';
+import sharedSession from 'express-socket.io-session';
+
+import io from './utils/socket-utils';
 
 import todoListRoutes from './routes/todo-list.route';
 import userRoutes from './routes/users.route';
@@ -13,8 +19,33 @@ import userRoutes from './routes/users.route';
 
 const app = express();
 
+// setting up socket connection
+const server = http.Server(app);
+// const io = socket(server);
+
+
 //Using Busyboy for multipart/form-data
 bb.extend(app);
+
+
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'dummy',
+    resave: true,
+    saveUninitialized: true
+}));
+
+
+io.use(sharedSession(session));
+
+// socket.io connection
+// io.on('connection', (socket) => {
+//     // Accept a login event with user's data
+//     socket.on("login", userdata => {
+//         console.log("loginSocket",userdata);
+//         socket.handshake.session.userdata = userdata;
+//         socket.handshake.session.save();
+//     });
+// });
 
 // Middleware to allow CORS
 app.use(function (req, res, next) {

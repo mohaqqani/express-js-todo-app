@@ -1,9 +1,12 @@
 //import models
 import Todo from '../models/todo.model';
+import TodoList from '../models/todo-lists.model';
+
+import socket from 'socket.io';
 
 // import Utils and Helpers
 import PrintLog from "../utils/req-body-logger";
-import TodoList from "../models/todo-lists.model";
+import io from '../utils/socket-utils';
 
 export const getTodos = (req, res) => {
     Todo.find({ list: req.query.list }).populate('list').exec((err, todo) => {
@@ -23,6 +26,10 @@ export const addTodo = (req, res) => {
             console.error(err);
             return res.json({ 'success': false, 'message': 'Some Error' });
         } else {
+            // This will broadcast to all users connected users inside the collaborative list
+            TodoList.findOne(todo.list,(err,listObj)=>{
+                io.broadcast.to(listObj.title).emit('notify','New Item Added in '+ listObj.title);
+            });
             return res.json({ 'success': true, 'message': 'Todo added successfully', todo: todo });
         }
     });
@@ -33,6 +40,10 @@ export const updateTodo = (req, res) => {
         if (err) {
             return res.json({ 'success': false, 'message': 'Some Error', 'error': err });
         } else {
+            // This will broadcast to all users connected users inside the collaborative list
+            TodoList.findOne(todo.list,(err,listObj)=>{
+                io.broadcast.to(listObj.title).emit('notify','An item updated in '+ listObj.title);
+            });
             return res.json({ 'success': true, 'message': 'Updated successfully', todoList: todo });
         }
     });
@@ -57,6 +68,10 @@ export const deleteTodo = (req, res) => {
         if (err) {
             return res.json({ 'success': false, 'message': 'Some Error' });
         } else {
+            // This will broadcast to all users connected users inside the collaborative list
+            TodoList.findOne(todo.list,(err,listObj)=>{
+                io.broadcast.to(listObj.title).emit('notify','An item removed from '+ listObj.title);
+            });
             return res.json({ 'success': true, 'message': todo.text + ' deleted successfully' });
         }
     });

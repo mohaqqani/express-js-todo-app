@@ -12,6 +12,7 @@ export const login = (req, res) => {
             return res.json({ 'success': false, 'message': 'Some Error' });
         } else {
             if (user.length) {
+                req.session.userID = user._id;
                 return res.json({ 'success': true, 'message': 'User found successfully', user });
             } else {
                 return res.json({ 'success': false, 'message': 'User with the given credentials not found' });
@@ -56,7 +57,7 @@ export const forgetPassword = (req, res) => {
                 if (err) {
                     return res.json({ 'success': false, 'message': 'Some Error' });
                 } else {
-                    PrintLog('forgetPassword Email Response',info)
+                    PrintLog('forgetPassword Email Response', info)
                     return res.json({ 'success': true, 'message': 'Email Sent to registered email address' });
                 }
             })
